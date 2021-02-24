@@ -7,6 +7,14 @@ const client = new Arweave({
     protocol: "https",
   });
 
+export function trimAddress(addr) {
+  if (addr.length <= 0) {
+    return addr
+  }
+
+  return addr.slice(0, 5) + '...' + addr.slice(-5)
+}
+
 export function useAddress() {
     const [address, setAddress] = React.useState('');
     React.useEffect(() => {

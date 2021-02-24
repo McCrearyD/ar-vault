@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
-import {useAddress} from '../src/hooks/useAddress'
+import { trimAddress, useAddress } from '../src/hooks/useAddress'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +43,7 @@ export default function Nav() {
           
           <div className={classes.addressDisplay}>
             {address.length > 0
-              ? <a>{address}</a>
+              ? <a>{trimAddress(address)}</a>
               : <CircularProgress color="secondary" />
             }
           </div>
