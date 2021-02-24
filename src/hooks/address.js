@@ -26,3 +26,7 @@ export function useAddress() {
   
     return address
 }
+
+export function useHasAddress() {
+  return useAddress().length > 0
+}

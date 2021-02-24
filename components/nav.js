@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
-import { trimAddress, useAddress } from '../src/hooks/useAddress'
+import {trimAddress, useAddress} from '../src/hooks/address'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Nav() {
-  const classes = useStyles();
+  const classes = useStyles()
   const address = useAddress()
 
   return (
@@ -40,12 +40,12 @@ export default function Nav() {
           <Typography variant="h6" className={classes.title}>
             ArVault
           </Typography>
-          
+
           <div className={classes.addressDisplay}>
             {address.length > 0
               ? <a>{trimAddress(address)}</a>
-              : <CircularProgress color="secondary" />
-            }
+              : <CircularProgress color="secondary"/>
+}
           </div>
         </Toolbar>
       </AppBar>
