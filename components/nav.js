@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -24,14 +25,29 @@ import {trimAddress, useAddress, useHasAddress} from '../src/hooks/address'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 const upperMap = {
-  'Dashboard': <Dashboard />, 
-  'Passwords': <VpnKey />, 
-  'Secret Notes': <Note />
+  'Dashboard': {
+    'elem': <Dashboard />,
+    'href': '/dashboard'
+  },
+  'Passwords': {
+    'elem': <VpnKey />,
+    'href': '/dashboard/passwords'
+  }, 
+  'Secret Notes': {
+    'elem': <Note />,
+    'href': '/dashboard/notes'
+  } 
 }
 
 const lowerMap = {
-  'Help': <Help />, 
-  'Settings': <Settings />
+  'Help': {
+    'elem': <Help />,
+    'href': '/help'
+  }, 
+  'Settings': {
+    'elem': <Settings />,
+    'href': '/settings'
+  }
 }
 
 const drawerWidth = 240;
@@ -104,6 +120,7 @@ export default function Nav() {
   const [open, setOpen] = React.useState(false);
   const address = useAddress();
   const hasAddress = useHasAddress();
+  const router = useRouter();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -169,8 +186,12 @@ export default function Nav() {
         <List>
           {Object.keys(upperMap).map(key => {
             return (
-              <ListItem button key={key}>
-                <ListItemIcon>{upperMap[key]}</ListItemIcon>
+              <ListItem onClick={() => {
+                  router.push(upperMap[key].href)
+                  handleDrawerClose()
+                }} button key={key}>
+
+                <ListItemIcon>{upperMap[key].elem}</ListItemIcon>
                 <ListItemText primary={key} />
               </ListItem>
             )
@@ -180,8 +201,12 @@ export default function Nav() {
         <List>
         {Object.keys(lowerMap).map(key => {
             return (
-              <ListItem button key={key}>
-                <ListItemIcon>{lowerMap[key]}</ListItemIcon>
+              <ListItem onClick={() => {
+                router.push(lowerMap[key].href)
+                handleDrawerClose()
+              }} button key={key}>
+
+                <ListItemIcon>{lowerMap[key].elem}</ListItemIcon>
                 <ListItemText primary={key} />
               </ListItem>
             )
