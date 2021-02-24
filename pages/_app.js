@@ -5,6 +5,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/theme';
 import Nav from '../components/nav'
+import Arweave from 'arweave';
 
 export default function MyApp(props) {
   const { Component, pageProps } = props;
@@ -15,6 +16,22 @@ export default function MyApp(props) {
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
+  }, []);
+
+  const client = new Arweave({
+    host: "arweave.net",
+    port: 443,
+    protocol: "https",
+  });
+
+  // ArConnect setup
+  const [address, setAddress] = React.useState('');
+  React.useEffect(() => {
+    addEventListener("arweaveWalletLoaded", async () => {
+      const addr = await client.wallets.getAddress();
+      console.log('WALLET LOADED, ADDR:', addr)
+      setAddress(addr);
+    });
   }, []);
 
   return (

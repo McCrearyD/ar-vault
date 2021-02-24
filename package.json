@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "latest",
+    "arweave": "^1.10.11",
     "clsx": "latest",
     "next": "latest",
     "prop-types": "latest",
