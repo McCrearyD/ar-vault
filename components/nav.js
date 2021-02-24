@@ -15,8 +15,10 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import VpnKey from '@material-ui/icons/VpnKey'
+import Help from '@material-ui/icons/Help'
+import Settings from '@material-ui/icons/Settings'
+import Note from '@material-ui/icons/Note'
 import {trimAddress, useAddress, useHasAddress} from '../src/hooks/address'
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -77,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
+  // TODO: fix display (move to right)
   addressDisplay: {
     position: 'relative',
     float: 'right'
@@ -98,7 +101,6 @@ export default function Nav() {
     setOpen(false);
   };
 
-
   let sideMenu = undefined
   if (hasAddress) {
     sideMenu = (
@@ -113,7 +115,6 @@ export default function Nav() {
           </IconButton>
     )
   }
-
 
   return (
     <div className={classes.root}>
@@ -154,18 +155,20 @@ export default function Nav() {
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {['Passwords', 'Secret Notes'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              {/* TODO: better icon handling */}
+              <ListItemIcon>{index === 0 ? <VpnKey/> : <Note/>}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
         <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          {['Help', 'Settings'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              {/* TODO: better icon handling */}
+              <ListItemIcon>{index === 0 ? <Help /> : <Settings />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
