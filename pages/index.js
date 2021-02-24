@@ -5,10 +5,13 @@ import Box from '@material-ui/core/Box';
 import ProTip from '../src/ProTip';
 import Link from '../src/Link';
 import Copyright from '../src/Copyright';
+// import Nav from '../components/nav'
 
 export default function Index() {
   return (
     <Container maxWidth="sm">
+      {/* <Nav /> */}
+
       <Box my={4}>
         <Typography variant="h4" component="h1" gutterBottom>
           Next.js example
