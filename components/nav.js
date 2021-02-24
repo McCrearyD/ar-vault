@@ -18,9 +18,21 @@ import ListItemText from '@material-ui/core/ListItemText';
 import VpnKey from '@material-ui/icons/VpnKey'
 import Help from '@material-ui/icons/Help'
 import Settings from '@material-ui/icons/Settings'
+import Dashboard from '@material-ui/icons/Dashboard'
 import Note from '@material-ui/icons/Note'
 import {trimAddress, useAddress, useHasAddress} from '../src/hooks/address'
 import CircularProgress from '@material-ui/core/CircularProgress';
+
+const upperMap = {
+  'Dashboard': <Dashboard />, 
+  'Passwords': <VpnKey />, 
+  'Secret Notes': <Note />
+}
+
+const lowerMap = {
+  'Help': <Help />, 
+  'Settings': <Settings />
+}
 
 const drawerWidth = 240;
 
@@ -155,23 +167,25 @@ export default function Nav() {
         </div>
         <Divider />
         <List>
-          {['Passwords', 'Secret Notes'].map((text, index) => (
-            <ListItem button key={text}>
-              {/* TODO: better icon handling */}
-              <ListItemIcon>{index === 0 ? <VpnKey/> : <Note/>}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          {Object.keys(upperMap).map(key => {
+            return (
+              <ListItem button key={key}>
+                <ListItemIcon>{upperMap[key]}</ListItemIcon>
+                <ListItemText primary={key} />
+              </ListItem>
+            )
+          })}
         </List>
         <Divider />
         <List>
-          {['Help', 'Settings'].map((text, index) => (
-            <ListItem button key={text}>
-              {/* TODO: better icon handling */}
-              <ListItemIcon>{index === 0 ? <Help /> : <Settings />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+        {Object.keys(lowerMap).map(key => {
+            return (
+              <ListItem button key={key}>
+                <ListItemIcon>{lowerMap[key]}</ListItemIcon>
+                <ListItemText primary={key} />
+              </ListItem>
+            )
+          })}
         </List>
       </Drawer>
     </div>
