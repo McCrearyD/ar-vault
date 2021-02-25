@@ -17,7 +17,7 @@ export default function Dashboard() {
             Dashboard
           </Typography>
             </Box>
-          <New type='password' />
+          <New entryType='Password' />
           <ProTip />
           <Copyright />
         </Box>

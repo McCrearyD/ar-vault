@@ -8,7 +8,7 @@ import AddIcon from '@material-ui/icons/Add';
 import {PasswordForm} from './forms/password-form'
 
 
-export default function NewDialog({type}) {
+export default function NewDialog({entryType}) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -26,17 +26,17 @@ export default function NewDialog({type}) {
       </Button> */}
       <Fab color="primary" aria-label="add" variant="extended" onClick={handleClickOpen}>
       <AddIcon />
-      {type}
+      {entryType}
     </Fab>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">New {entryType}</DialogTitle>
         <PasswordForm></PasswordForm>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
           <Button onClick={handleClose} color="primary">
-            Subscribe
+            Save
           </Button>
         </DialogActions>
       </Dialog>
