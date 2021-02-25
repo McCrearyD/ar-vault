@@ -36,7 +36,7 @@ export default function NewDialog({entryType}) {
             Cancel
           </Button>
           <Button onClick={handleClose} color="primary">
-            Save
+            Create
           </Button>
         </DialogActions>
       </Dialog>
