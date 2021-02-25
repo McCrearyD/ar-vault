@@ -7,7 +7,19 @@ import { PasswordForm } from './forms/password-form'
 import { useMediaQuery, useTheme } from '@material-ui/core';
 
 
-export default function NewDialog({entryType}) {
+const specs = {
+  'password': {
+    'icon': <AddIcon />,
+    'form': handleClose => <PasswordForm handleClose={handleClose} />
+  },
+  'login': {
+    'icon': () => null,
+    'form': <h1>TEST</h1>
+  }
+}
+
+
+export default function PopupDialog({entryType, title}) {
   const [open, setOpen] = React.useState(false);
 
   const theme = useTheme();
@@ -21,15 +33,18 @@ export default function NewDialog({entryType}) {
     setOpen(false);
   };
 
+  const entryId = entryType.toLowerCase()
+  const spec = specs[entryId]
+
   return (
     <div>
-      <Fab color="primary" aria-label="add" variant="extended" onClick={handleClickOpen}>
-      <AddIcon />
+      <Fab color="primary" variant="extended" onClick={handleClickOpen}>
+      {spec.icon(handleClose)}
       {entryType}
     </Fab>
       <Dialog fullScreen={fullScreen} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">New {entryType}</DialogTitle>
-        <PasswordForm handleClose={handleClose}></PasswordForm>
+        <DialogTitle id="form-dialog-title">{title}</DialogTitle>
+        {spec.form}
       </Dialog>
     </div>
   );

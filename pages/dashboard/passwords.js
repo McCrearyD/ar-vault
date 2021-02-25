@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import ProTip from '../../src/ProTip';
 import Copyright from '../../src/Copyright';
-import New from '../../components/new';
+import PopupDialog from '../../components/popup-dialog';
 
 export default function Passwords() {
     return (
@@ -15,7 +15,7 @@ export default function Passwords() {
             Passwords
           </Typography>
             </Box>
-          <New entryType='Password' />
+          <PopupDialog title='New Password' entryType='Password' />
           <ProTip />
           <Copyright />
         </Box>

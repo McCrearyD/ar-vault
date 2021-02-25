@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import ProTip from '../../src/ProTip';
 import Link from '../../src/Link';
 import Copyright from '../../src/Copyright';
-import New from '../../components/new';
+import PopupDialog from '../../components/popup-dialog';
 
 export default function Dashboard() {
     return (
@@ -17,7 +17,7 @@ export default function Dashboard() {
             Dashboard
           </Typography>
             </Box>
-          <New entryType='Password' />
+          <PopupDialog title='New Password' entryType='Password' />
           <ProTip />
           <Copyright />
         </Box>
