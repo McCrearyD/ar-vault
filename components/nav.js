@@ -117,9 +117,9 @@ const useStyles = makeStyles((theme) => ({
 function handleAddressNavigation(hasAddress, router) {
     if (!hasAddress) {
       if (router.pathname !== '/') {
-        router.push('/not-set-up')
+        router.push('/login')
       }
-    } else if (router.pathname == '/not-set-up' || router.pathname == '/') {
+    } else if (router.pathname == '/login' || router.pathname == '/') {
       router.push('/dashboard')
     }
 }
