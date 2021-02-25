@@ -1,7 +1,7 @@
 import Arweave from 'arweave';
-import React from 'react'
+import React from 'react';
 
-const client = new Arweave({host: "arweave.net", port: 443, protocol: "https"});
+const arweaveClient = new Arweave({host: "arweave.net", port: 443, protocol: "https"});
 
 export function trimAddress(addr) {
   if (addr.length <= 0) {
@@ -22,7 +22,7 @@ export function useAddress(eventListenerCallback, deps) {
 
   React.useEffect(() => {
     addEventListener("arweaveWalletLoaded", async() => {
-      const addr = await client
+      const addr = await arweaveClient
         .wallets
         .getAddress();
       setAddress(addr);
