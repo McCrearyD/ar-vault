@@ -13,24 +13,33 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
+async function logIn(keyFileText) {
+    console.log(keyFileText)
+}
 
 async function handleSubmit(event, keyFile) {
   event.preventDefault()
   console.log(event)
   console.log(keyFile)
 
-  /*
-  const entry = extractJSONFromFormSubmitEvent(event, passwordEntryKeys)
-  const entryStr = JSON.stringify(entry)
-  const data = enc.encode(entryStr)
-  const encryptedEntry = await Arweave.crypto.encrypt(data, pubKey)
-  console.log(entry)
-  console.log(data)
-  console.log('was encrypted with pubkey')
-  console.log(pubKey)
-  console.log('output of which is')
-  console.log(dec.decode(encryptedEntry))
-  */
+  if (keyFile.length !== 1) {
+    throw Error('keyfile should have length = 1.')
+  }
+  keyFile = keyFile[0]
+
+  if (keyFile.type !== "application/json") {
+    throw Error(`expected keyFile type to be "application/json", not "${keyFile.type}".`)
+  }
+
+  const reader = new FileReader();
+  reader.onload = async () => {
+    if (typeof reader.result !== "string") return goto("/");
+
+    // reader.result contains the text in the keyfile
+    await logIn(reader.result)
+  };
+
+  reader.readAsText(keyFile);
 }
 
 
