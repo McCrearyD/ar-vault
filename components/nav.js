@@ -114,13 +114,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function handleAddressNavigation(hasAddress, router) {
+    if (!hasAddress) {
+      if (router.pathname !== '/') {
+        router.push('/not-set-up')
+      }
+    } else if (router.pathname === '/not-set-up') {
+      router.push('/dashboard')
+    }
+}
+
 export default function Nav() {
+  const router = useRouter();
+  const hasAddress = useHasAddress((hasAddress) => handleAddressNavigation(hasAddress, router));
+  React.useEffect(() => handleAddressNavigation(hasAddress, router), [hasAddress, router])
+
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const address = useAddress();
-  const hasAddress = useHasAddress();
-  const router = useRouter();
 
   const handleDrawerOpen = () => {
     setOpen(true);

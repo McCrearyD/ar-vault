@@ -15,18 +15,23 @@ export function trimAddress(addr) {
   return addr.slice(0, 5) + '...' + addr.slice(-5)
 }
 
-export function useAddress() {
+export function useAddress(eventListenerCallback, deps) {
     const [address, setAddress] = React.useState('');
+    const rDeps = deps ? [eventListenerCallback, ...deps] : [eventListenerCallback]
+
     React.useEffect(() => {
       addEventListener("arweaveWalletLoaded", async () => {
         const addr = await client.wallets.getAddress();
         setAddress(addr);
+        if (eventListenerCallback) {
+          eventListenerCallback(addr)
+        }
       });
-    }, []);
+    }, rDeps);
   
     return address
 }
 
-export function useHasAddress() {
-  return useAddress().length > 0
+export function useHasAddress(eventListenerCallback, deps) {
+  return useAddress((addr) => eventListenerCallback(addr.length > 0), deps).length > 0
 }
