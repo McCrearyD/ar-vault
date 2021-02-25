@@ -4,6 +4,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import { Button, DialogActions, makeStyles } from '@material-ui/core';
 import { Lock } from '@material-ui/icons';
 import {DropzoneArea} from 'material-ui-dropzone'
+import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
     lock: {
@@ -13,9 +14,10 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-async function handleSubmit(event) {
+async function handleSubmit(event, keyFile) {
   event.preventDefault()
   console.log(event)
+  console.log(keyFile)
 
   /*
   const entry = extractJSONFromFormSubmitEvent(event, passwordEntryKeys)
@@ -33,19 +35,21 @@ async function handleSubmit(event) {
 
 
 export function LoginForm({handleClose}) {
-  const classes = useStyles();
+  const classes = useStyles()
+  
+  const [keyFile, setKeyFile] = useState()
   
   return (
-        <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
+        <form className={classes.root} noValidate autoComplete="off" onSubmit={e => handleSubmit(e, keyFile)}>
       <DialogContent>
         <DialogContentText>
-          Drag and drop your arweave keyfile. If you don't have one, you can get one{' '}
+          Drag & drop or click & select your arweave keyfile. If you don't have one, you can get one{' '}
           <a target='_blank' href="https://www.arweave.org/wallet">here</a>.
         </DialogContentText>       
 
         <DialogContentText>
           <Lock className={classes.lock} />
-          Your keyfile does not leave your computer. It is stored locally and is used for encrypting/decrypting your vault entries.
+          Your keyfile does NOT leave your device. It is stored locally and is used for encrypting/decrypting your vault entries.
         </DialogContentText>
 
         <br />
@@ -59,7 +63,7 @@ export function LoginForm({handleClose}) {
           label="Website/Identifier"
           type="identifier"
           fullWidth/> */}
-        <DropzoneArea onChange={console.log} filesLimit={1} dropzoneText="Select keyfile" />
+        <DropzoneArea onChange={setKeyFile} filesLimit={1} dropzoneText="Select keyfile" />
       </DialogContent>
 
 

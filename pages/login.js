@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NotSetUp() {
+export default function Login() {
   const classes = useStyles()
   const hasAddress = useHasAddress()
 
@@ -33,11 +33,16 @@ export default function NotSetUp() {
     inner = (
         <Box my={4}>
           <Typography variant="h4" component="h1" gutterBottom>
-            ArConnect is not set up!
+            Log In
           </Typography>
+
+          Method 1:{' '}
           <Link href="https://chrome.google.com/webstore/detail/arconnect/einnioafmpimabjcddiinlhmijaionap" color="secondary">
-            Download it from the google webstore
+            Download ArConnect from the google webstore
           </Link>
+
+          Method 2:{' '}
+          <input type="file" />
           <ProTip />
           <Copyright />
         </Box>
