@@ -3,8 +3,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import { Button, DialogActions, makeStyles } from '@material-ui/core';
 import { Lock } from '@material-ui/icons';
-import Arweave from 'arweave';
-import { useAddress } from '../../src/hooks/address';
+import {DropzoneArea} from 'material-ui-dropzone'
 
 const useStyles = makeStyles((theme) => ({
     lock: {
@@ -49,6 +48,9 @@ export function LoginForm({handleClose}) {
           Your keyfile does not leave your computer. It is stored locally and is used for encrypting/decrypting your vault entries.
         </DialogContentText>
 
+        <br />
+        <br />
+
         {/* <TextField
           autoFocus
           required
@@ -57,6 +59,7 @@ export function LoginForm({handleClose}) {
           label="Website/Identifier"
           type="identifier"
           fullWidth/> */}
+        <DropzoneArea onChange={console.log} filesLimit={1} dropzoneText="Select keyfile" />
       </DialogContent>
 
 
