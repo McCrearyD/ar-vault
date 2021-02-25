@@ -22,6 +22,7 @@ export function useAddress(eventListenerCallback, deps) {
     React.useEffect(() => {
       addEventListener("arweaveWalletLoaded", async () => {
         const addr = await client.wallets.getAddress();
+        console.log('arweave wallet loaded', addr)
         setAddress(addr);
         if (eventListenerCallback) {
           eventListenerCallback(addr)
@@ -33,5 +34,9 @@ export function useAddress(eventListenerCallback, deps) {
 }
 
 export function useHasAddress(eventListenerCallback, deps) {
+  if (!eventListenerCallback) {
+    eventListenerCallback = (addr) => {}
+  }
+
   return useAddress((addr) => eventListenerCallback(addr.length > 0), deps).length > 0
 }
