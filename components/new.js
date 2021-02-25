@@ -21,24 +21,13 @@ export default function NewDialog({entryType}) {
 
   return (
     <div>
-      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open form dialog
-      </Button> */}
       <Fab color="primary" aria-label="add" variant="extended" onClick={handleClickOpen}>
       <AddIcon />
       {entryType}
     </Fab>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">New {entryType}</DialogTitle>
-        <PasswordForm></PasswordForm>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Create
-          </Button>
-        </DialogActions>
+        <PasswordForm handleClose={handleClose}></PasswordForm>
       </Dialog>
     </div>
   );
