@@ -5,6 +5,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { PasswordForm } from './forms/password-form'
 import { useMediaQuery, useTheme } from '@material-ui/core';
+import { LoginForm } from './forms/login-form';
 
 
 const specs = {
@@ -14,7 +15,7 @@ const specs = {
   },
   'login': {
     'icon': () => null,
-    'form': <h1>TEST</h1>
+    'form': handleClose => <LoginForm handleClose={handleClose} />
   }
 }
 
@@ -39,12 +40,12 @@ export default function PopupDialog({entryType, title}) {
   return (
     <div>
       <Fab color="primary" variant="extended" onClick={handleClickOpen}>
-      {spec.icon(handleClose)}
+      {spec.icon}
       {entryType}
     </Fab>
       <Dialog fullScreen={fullScreen} open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">{title}</DialogTitle>
-        {spec.form}
+        {spec.form(handleClose)}
       </Dialog>
     </div>
   );
