@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import ProTip from '../../src/ProTip';
 import Link from '../../src/Link';
 import Copyright from '../../src/Copyright';
+import New from '../../components/new';
 
 export default function Dashboard() {
     return (
@@ -16,10 +17,7 @@ export default function Dashboard() {
             Dashboard
           </Typography>
             </Box>
-          
-          <Button variant="contained" color="primary" component={Link} naked href="/">
-            Go to the main page
-          </Button>
+          <New type='password' />
           <ProTip />
           <Copyright />
         </Box>
