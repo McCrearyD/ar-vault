@@ -119,7 +119,7 @@ function handleAddressNavigation(hasAddress, router) {
       if (router.pathname !== '/') {
         router.push('/not-set-up')
       }
-    } else if (router.pathname === '/not-set-up') {
+    } else if (router.pathname == '/not-set-up' || router.pathname == '/') {
       router.push('/dashboard')
     }
 }
@@ -127,7 +127,9 @@ function handleAddressNavigation(hasAddress, router) {
 export default function Nav() {
   const router = useRouter();
   const hasAddress = useHasAddress((hasAddress) => handleAddressNavigation(hasAddress, router));
-  React.useEffect(() => handleAddressNavigation(hasAddress, router), [hasAddress, router])
+  React.useEffect(() => {
+    handleAddressNavigation(hasAddress, router)
+  }, [hasAddress, router])
 
   const classes = useStyles();
   const theme = useTheme();
