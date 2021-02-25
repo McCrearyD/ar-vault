@@ -1,5 +1,9 @@
 import Arweave from 'arweave';
 import React from 'react';
+import { getAddress } from '../stores/keyFileStore';
+
+
+const preferredLogin = 'local' // 'local' | 'arconnect'
 
 export const arweaveClient = new Arweave({host: "arweave.net", port: 443, protocol: "https"});
 
@@ -11,9 +15,12 @@ export function trimAddress(addr) {
   return addr.slice(0, 5) + '...' + addr.slice(-5)
 }
 
-export function useAddress(eventListenerCallback, deps) {
-  const [address,
-    setAddress] = React.useState('');
+function useAddressArConnect(eventListenerCallback, deps) {
+  if (eventListenerCallback || deps) {
+    throw Error('not implemented')
+  }
+
+  const [address, setAddress] = React.useState('');
   const rDeps = deps
     ? [
       eventListenerCallback, ...deps
@@ -35,10 +42,29 @@ export function useAddress(eventListenerCallback, deps) {
   return address
 }
 
-export function useHasAddress(eventListenerCallback, deps) {
-  if (!eventListenerCallback) {
-    eventListenerCallback = (addr) => {}
+export function useAddress() {
+
+  let order = [];
+  switch (preferredLogin) {
+    case 'local':
+      order = [getAddress, useAddressArConnect]
+      break
+    case 'arconnect':
+      order = [useAddressArConnect, getAddress]
+      break
+    default:
+      throw Error(`preferred login invalid. got ${preferredLogin}`)
   }
 
-  return useAddress((addr) => eventListenerCallback(addr.length > 0), deps).length > 0
+  let address = ''
+  order.some(useAddressFunc => {
+    address = useAddressFunc()
+    return address.length > 0
+  })
+
+  return address
+}
+
+export function useHasAddress() {
+  return useAddress().length > 0
 }
