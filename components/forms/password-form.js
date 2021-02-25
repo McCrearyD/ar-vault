@@ -30,14 +30,43 @@ export function PasswordForm({handleClose}) {
           Warning: do NOT share your private key or passphrase with anyone.
         </DialogContentText>
 
+        <form className={classes.root} noValidate autoComplete="off">
         <TextField
           autoFocus
+          required
           margin="dense"
-          id="name"
+          id="identifier"
+          label="Website/Identifier"
+          type="identifier"
+          fullWidth/>
+
+      {/* TODO: email suggestions */}
+        <TextField
+          margin="dense"
+          id="email"
           label="Email Address"
           type="email"
           fullWidth/>
+
+        <TextField
+          margin="dense"
+          id="username"
+          label="Username/Login ID"
+          type="username"
+          fullWidth/>
+
+        {/* TODO: show/hide button for password */}
+        {/* TODO: add password generator button */}
+        <TextField
+          required
+          margin="dense"
+          id="password"
+          label="Password"
+          type="password"
+          fullWidth/>
+      </form>
       </DialogContent>
+
 
       <DialogActions>
         <Button onClick={handleClose} color="primary">
