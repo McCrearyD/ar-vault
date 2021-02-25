@@ -14,8 +14,11 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-async function handleSubmit(event, pubKey) {
+async function handleSubmit(event) {
   event.preventDefault()
+  console.log(event)
+
+  /*
   const entry = extractJSONFromFormSubmitEvent(event, passwordEntryKeys)
   const entryStr = JSON.stringify(entry)
   const data = enc.encode(entryStr)
@@ -26,6 +29,7 @@ async function handleSubmit(event, pubKey) {
   console.log(pubKey)
   console.log('output of which is')
   console.log(dec.decode(encryptedEntry))
+  */
 }
 
 
@@ -33,7 +37,7 @@ export function LoginForm({handleClose}) {
   const classes = useStyles();
   
   return (
-        <form className={classes.root} noValidate autoComplete="off" onSubmit={e => handleSubmit(e, pubKey)}>
+        <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
       <DialogContent>
         <DialogContentText>
           Drag and drop your arweave keyfile. If you don't have one, you can get one{' '}
