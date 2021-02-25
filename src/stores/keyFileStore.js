@@ -1,160 +1,27 @@
-import { writable, derived, get, readable } from "svelte/store";
-import Arweave from "arweave";
+import { arweaveClient } from "../hooks/address";
 
-// We store the arweave keyfile here.
-// It gets saved to the local stroage of the browser
-// It never leaves the user's browser
+const JWK_KEY = 'jwk'
+const ADDRESS_KEY = 'address'
 
-export const address = createCustomStore("address");
-export const keyfile = createCustomStore("keyfile");
-export const profiles = createProfilesStore();
-
-// this is a custom store
-// it enables saving to local storage
-function createCustomStore(storeName) {
-  const { subscribe, set } = writable("");
-
-  if (
-    // @ts-ignore
-    process.browser &&
-    localStorage.getItem(storeName) !== null &&
-    localStorage.getItem(storeName) !== "" &&
-    localStorage.getItem(storeName) !== "null" &&
-    localStorage.getItem(storeName) !== undefined
-  ) {
-    // is logged in according to the browser
-    set(localStorage.getItem(storeName));
-  }
-
+async function parseJwk(jwk) {
+  const jsonJwk = JSON.parse(jwk)
+  let address = await arweaveClient.wallets.jwkToAddress(jsonJwk);
   return {
-    subscribe,
-    reset: () => {
-      // reset / log out
-      set("");
-      localStorage.removeItem(storeName);
-    },
-    set: (val) => {
-      // set
-      set(val);
-      localStorage.setItem(storeName, val);
-    },
-  };
+    'jwk': jsonJwk,
+    'address': address
+  }
 }
 
-// create store for all keyfiles
-function createProfilesStore() {
-  const defaultVal = [],
-    { subscribe, set, update } = writable(defaultVal);
-
-  if (
-    // @ts-ignore
-    process.browser &&
-    localStorage.getItem("profiles") !== null &&
-    localStorage.getItem("profiles") !== undefined
-  ) {
-    set(JSON.parse(localStorage.getItem("profiles")));
-  }
-
-  // migrate the old system
-  update((currentProfiles) => {
-    if (
-      currentProfiles.filter((prf) => prf.address === get(address)).length !== 0
-    )
-      return currentProfiles;
-    // @ts-ignore
-    if (!process.browser) return;
-    if (get(address) === "" && get(keyfile) === "") return;
-
-    currentProfiles.push({ address: get(address), keyfile: get(keyfile) });
-    localStorage.setItem("profiles", JSON.stringify(currentProfiles));
-
-    return currentProfiles;
-  });
-
-  return {
-    subscribe,
-    removeKeyfile: (removeAddress) => {
-      if (removeAddress === "") return;
-      update((currentProfiles) => {
-        // @ts-ignore
-        if (!process.browser) return;
-
-        const newVal = currentProfiles.filter(
-          (prf) => prf.address !== removeAddress
-        );
-        localStorage.setItem("profiles", JSON.stringify(newVal));
-
-        return newVal;
-      });
-    },
-    addKeyfile(addAddress, addKeyFile) {
-      if (addAddress === "" || addKeyFile === "") return;
-      update((currentProfiles) => {
-        // @ts-ignore
-        if (!process.browser) return;
-        if (currentProfiles === undefined) currentProfiles = [];
-        if (
-          currentProfiles.filter((prf) => prf.address === addAddress).length > 0
-        )
-          return currentProfiles;
-
-        currentProfiles.push({ address: addAddress, keyfile: addKeyFile });
-        localStorage.setItem("profiles", JSON.stringify(currentProfiles));
-
-        return currentProfiles;
-      });
-    },
-    removeAll() {
-      // @ts-ignore
-      if (!process.browser) return;
-      set([]);
-      localStorage.removeItem("profiles");
-    },
-  };
+export async function storeKey(jwk) {
+  const data = await parseJwk(jwk)
+  localStorage.setItem(JWK_KEY, data.jwk)
+  localStorage.setItem(ADDRESS_KEY, data.address)
 }
 
-// return the balance
-export const balance = readable(null, (set) => {
-  // @ts-ignore
-  if (!process.browser) return;
-  const client = new Arweave({
-      host: "arweave.net",
-      port: 443,
-      protocol: "https",
-      timeout: 20000,
-    }),
-    getBalance = () =>
-      client.wallets
-        .getBalance(get(address))
-        .then((_balance) => set(client.ar.winstonToAr(_balance)));
-  getBalance();
-  // update balance on keyfile switch
-  const unsubscribe = address.subscribe(getBalance);
-  // refresh in every minute
-  const clearbalanceInterval = setInterval(getBalance, 60000);
+export function getAddress() {
+  return localStorage.getItem(ADDRESS_KEY)
+}
 
-  return function stop() {
-    clearInterval(clearbalanceInterval);
-    unsubscribe();
-  };
-});
-
-// a derived store
-// acts like a computed variable in Vue
-// returns if the user is logged in
-export const loggedIn = derived(
-  keyfile,
-  ($keyfile) =>
-    $keyfile !== "" &&
-    $keyfile !== "null" &&
-    $keyfile !== null &&
-    $keyfile !== undefined
-);
-
-// log out
-// this removes the keyfile from local stroage
-export function logOut() {
-  keyfile.reset();
-  address.reset();
-  profiles.removeAll();
+export function getJwk() {
+  return localStorage.getItem(JWK_KEY)
 }

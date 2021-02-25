@@ -1,7 +1,7 @@
 import Arweave from 'arweave';
 import React from 'react';
 
-const arweaveClient = new Arweave({host: "arweave.net", port: 443, protocol: "https"});
+export const arweaveClient = new Arweave({host: "arweave.net", port: 443, protocol: "https"});
 
 export function trimAddress(addr) {
   if (addr.length <= 0) {
